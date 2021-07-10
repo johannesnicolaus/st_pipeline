@@ -1,0 +1,39 @@
+#Bootstrap: docker
+#From: quay.io/biocontainers/star:2.5.3a--0
+
+#Bootstrap: docker
+#From: quay.io/biocontainers/samtools:1.4.1--0
+
+#Bootstrap: docker
+#From: python:3.6
+
+Bootstrap: docker
+From: continuumio/miniconda3
+
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt-get -y update && apt-get install -y vim
+    apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    python3-pip \
+    libz-dev \
+    build-essential 
+    
+    # conda install
+    conda install -y python=3.7
+    conda install -c anaconda cython
+    conda install -y -c bioconda samtools=1.4.1 openssl=1.0
+    conda install -y -c bioconda star=2.5.4a-0
+    #conda update --all
+
+    # pip install
+    pip install numpy
+    pip install --upgrade setuptools
+    pip install stpipeline
+
+    unset DEBIAN_FRONTEND
